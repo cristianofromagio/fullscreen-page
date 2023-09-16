@@ -1,7 +1,25 @@
+/**
+ * refs:
+ *  - https://react.dev/reference/react/Component#render-returns
+ *  - https://stackoverflow.com/questions/72011260/draw-svg-with-dynamic-value-on-canvas
+ *  - https://stackoverflow.com/questions/41571622/how-to-include-css-style-when-converting-svg-to-png
+ *  - https://stackoverflow.com/a/53703704
+ */
+
 import { useEffect, useMemo } from 'preact/hooks';
+import validateColor from 'validate-color';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useParams,
+  useLocation,
+  useSearchParams,
+} from 'react-router-dom';
+
 import './app.css';
 
-export function DynamicFavicon({ color = "black" }) {
+function DynamicFaviconTitle({ color = "black" }) {
 
   const faviconStr = useMemo(
     () => `
@@ -35,15 +53,65 @@ export function DynamicFavicon({ color = "black" }) {
 
       DOMURL.revokeObjectURL(url);
     };
+
+    document.title = color;
   }, [ faviconStr ]);
 
   return false;
 }
 
+function ColorView() {
+  const { color } = useParams();
+  const { hash } = useLocation();
+  const [ searchParams ] = useSearchParams();
+
+  function validateColorCheck(colorString) {
+    if (colorString && colorString !== '' && validateColor(colorString)) {
+      return true;
+    }
+    return false;
+  }
+
+  function validateColorValue(colorVal) {
+    if (colorVal && colorVal !== '' && validateColor(colorVal)) {
+      return colorVal;
+    }
+    return false;
+  }
+
+  function failSafeValidate() {
+    let validColor =
+      validateColorValue(color) ||
+      validateColorValue(hash) ||
+      validateColorValue(searchParams.get('color')) ||
+      'transparent';
+    return validColor;
+  }
+
+  return (
+    <>
+      <div
+        style={{
+          backgroundColor: failSafeValidate(),
+        }}
+        className={`validate-color ${failSafeValidate() === 'transparent' ? 'invalid-color-code' : ''}`}
+      ></div>
+
+      <DynamicFaviconTitle color={failSafeValidate()}/>
+
+    </>
+  );
+}
+
 export function App() {
   return (
     <>
-      <DynamicFavicon color="red"/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/:color" element={<ColorView />} />
+          <Route path="/" element={<ColorView />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "preact": "^10.16.0"
+    "preact": "^10.16.0",
+    "react-router-dom": "^6.14.2",
+    "validate-color": "^2.2.4"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.5.0",
