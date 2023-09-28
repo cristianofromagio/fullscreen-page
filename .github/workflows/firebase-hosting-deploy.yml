@@ -1,28 +1,25 @@
 # Modified from auto-generated file by the Firebase CLI
 # https://github.com/firebase/firebase-tools
+# https://github.com/marketplace/actions/deploy-to-firebase-hosting#deploy-to-your-live-channel-on-merge
 
 name: Deploy to Firebase Hosting
 
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ['main']
+    branches:
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  build_deploy:
+  deploy_live_website:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'npm'
-      - name: Install and build
+      - name: Build
         run: npm ci && npm run build
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -30,3 +27,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FULLSCREEN_COLOR_PAGE }}'
           projectId: fullscreen-color-page
+          channelId: live
