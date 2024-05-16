@@ -14,8 +14,8 @@ export default function ColorView({}) {
 
   function failSafeValidate() {
     let validColor =
-      validateColorValue(color) ||
       validateColorValue(hash) ||
+      validateColorValue(color) ||
       validateColorValue(searchParams.get('color')) ||
       'transparent';
     return validColor;
