@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import { validateColorValue } from '@/utils';
-import DynamicFaviconTitle from '@/components/dynamic-favicon';
+import { DynamicFaviconTitleSolid } from '@/components/dynamic-favicon';
 
 export default function ColorView({}) {
   const { color } = useParams();
@@ -30,7 +30,7 @@ export default function ColorView({}) {
         className={`validate-color ${failSafeValidate() === 'transparent' ? 'invalid-color-code' : ''}`}
       ></div>
 
-      <DynamicFaviconTitle color={failSafeValidate()}/>
+      <DynamicFaviconTitleSolid color={failSafeValidate()}/>
 
     </>
   );

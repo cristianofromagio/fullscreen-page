@@ -25,7 +25,7 @@ body {
 
 #app {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   flex-direction: column;
   color: black;

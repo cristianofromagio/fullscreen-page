@@ -15,12 +15,14 @@ import {
 } from 'react-router-dom';
 
 import ColorView from '@/components/color-view';
+import ColorPalette from '@/components/color-palette';
 
 export function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/palette/:colors" element={<ColorPalette />} />
           <Route path="/:color" element={<ColorView />} />
           <Route path="/" element={<ColorView />} />
         </Routes>
